@@ -9,28 +9,138 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const { doesNotMatch } = require("assert");
+var teamList = [];
 
 function init() {
-    inquire.prompt([
+    inquire
+    .prompt([
         {
         type: "list",
-        name: "employeeToMake",
-        message: "what team member to build"
-
+        message: "What is your role?",
+        name: "teamGenerator",
+        choices: ["Manager", "Engineer", "Intern", "Done"]
         },
-        {
-            
-        }
     ])
+    .then(teamMember => {
+        switch (teamMember.teamGenerator) {
+        case "Engineer":
+            Engineer();
+            break;
+        case "Manager":
+            Manager();
+            break;
+        case "Intern":
+            Intern();
+            break;
+        case "Done":
+            buildTeam();
+            break;
+        }
+    })
 }
 
+    function Engineer() {
+        inquire
+        .prompt([
+            {
+                type: "input",
+                name: "name",
+                message: "What is your name?"
+            },
+            {
+                type: "input",
+                name: "id",
+                message: "What is your ID number?"
+            },
+            {
+                type: "input",
+                name: "email",
+                message: "what is your email?"
+            },
+            {
+                type: "input",
+                name: "github",
+                message: "What is your Github username?"
+            }
+        ]).then(function(response){
+            var myEngineer = new Engineer(response.name, response.id, response.email, response.github)
+            teamList.push(myEngineer);
+            getUserInputs();
+        })
 
+   }
 
+   function Manager() {
+    inquire
+    .prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is your name?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is your ID number?"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "what is your email?"
+        },
+        {
+            type: "input",
+            name: "officeNumber",
+            message: "What is your office number?"
+        }
+    ]).then(function(response){
+        var myManager = new Manager(response.name, response.id, response.email, response.officeNumber)
+        teamList.push(myManager);
+        getUserInputs();
+    })
 
+}
 
+function intern() {
+    inquire
+    .prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is your name?"
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is your ID number?"
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "what is your email?"
+        },
+        {
+            type: "input",
+            name: "school",
+            message: "What is the name of your school?"
+        }
+    ]).then(function(response){
+        var myIntern = new Intern(response.name, response.id, response.email, response.school)
+        teamList.push(myIntern);
+        getUserInputs();
+    })
 
+}
 
-fs.mkdirSync(OURTPUT_DIR)
+function buildTeam(){
+    if(!fs.existsSync(OUTPUT_DIR)){
+        fs.mkdirSync(OUTPUT_DIR)
+    }
+    fs.writeFileSync(outputPath, render(teamlist), "utf-8")
+}
+
+getUserInputs();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 

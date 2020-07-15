@@ -10,11 +10,11 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const { doesNotMatch } = require("assert");
+
 var teamList = [];
 
 function init() {
-    inquire
-    .prompt([
+    inquirer.prompt([
         {
         type: "list",
         message: "What is your role?",
@@ -23,15 +23,15 @@ function init() {
         },
     ])
     .then(teamMember => {
-        switch (teamMember.teamGenerator) {
+        switch(teamMember.teamGenerator) {
         case "Engineer":
-            Engineer();
+            engineer();
             break;
         case "Manager":
-            Manager();
+            manager();
             break;
         case "Intern":
-            Intern();
+            intern();
             break;
         case "Done":
             buildTeam();
@@ -40,9 +40,8 @@ function init() {
     })
 }
 
-    function Engineer() {
-        inquire
-        .prompt([
+    function engineer() {
+        inquirer.prompt([
             {
                 type: "input",
                 name: "name",
@@ -64,16 +63,14 @@ function init() {
                 message: "What is your Github username?"
             }
         ]).then(function(response){
-            var myEngineer = new Engineer(response.name, response.id, response.email, response.github)
+            var myEngineer = new Engineer(response.name, response.id, response.email, response.github);
             teamList.push(myEngineer);
-            getUserInputs();
+            init();
         })
-
    }
 
-   function Manager() {
-    inquire
-    .prompt([
+   function manager() {
+    inquirer.prompt([
         {
             type: "input",
             name: "name",
@@ -94,17 +91,16 @@ function init() {
             name: "officeNumber",
             message: "What is your office number?"
         }
-    ]).then(function(response){
-        var myManager = new Manager(response.name, response.id, response.email, response.officeNumber)
+    ])
+    .then(function(response){
+        var myManager = new Manager(response.name, response.id, response.email, response.officeNumber);
         teamList.push(myManager);
-        getUserInputs();
+        init();
     })
-
 }
 
 function intern() {
-    inquire
-    .prompt([
+    inquirer.prompt([
         {
             type: "input",
             name: "name",
@@ -125,12 +121,12 @@ function intern() {
             name: "school",
             message: "What is the name of your school?"
         }
-    ]).then(function(response){
-        var myIntern = new Intern(response.name, response.id, response.email, response.school)
+    ])
+    .then(function(response){
+        var myIntern = new Intern(response.name, response.id, response.email, response.school);
         teamList.push(myIntern);
-        getUserInputs();
+        init();
     })
-
 }
 
 function buildTeam(){
@@ -140,7 +136,8 @@ function buildTeam(){
     fs.writeFileSync(outputPath, render(teamlist), "utf-8")
 }
 
-getUserInputs();
+init();
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 

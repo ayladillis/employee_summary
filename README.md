@@ -1,5 +1,6 @@
 # employee summary
 
+![code gif](https://media.giphy.com/media/UqpiTSduFYCuY1HAGR/giphy.gif)
 
 ## Table of Content
 - Objective

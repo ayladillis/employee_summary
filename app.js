@@ -10,7 +10,27 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+function init() {
+    inquire.prompt([
+        {
+        type: "list",
+        name: "employeeToMake",
+        message: "what team member to build"
 
+        },
+        {
+            
+        }
+    ])
+}
+
+
+
+
+
+
+
+fs.mkdirSync(OURTPUT_DIR)
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
